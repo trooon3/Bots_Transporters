@@ -13,8 +13,6 @@ public class Spawner : MonoBehaviour
     private int _maxResourceCount = 4;
     private Coroutine _coroutine;
 
-    public UnityAction<Resource> Spawned;
-
     private void Start()
     {
         for (int i = 0; i < _maxResourceCount; i++)
@@ -54,7 +52,5 @@ public class Spawner : MonoBehaviour
 
         resourceToSpawn.transform.position = spawnPoint;
         resourceToSpawn.gameObject.SetActive(true);
-
-        Spawned.Invoke(resourceToSpawn);
     }
 }

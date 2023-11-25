@@ -8,18 +8,25 @@ public class Base : MonoBehaviour
 {
     [SerializeField] private Spawner _spawner;
     [SerializeField] private List<Bot> _bots = new List<Bot>();
-    private Queue<Resource> _targets;
+    private Scaner _scaner;
+    private List<Resource> _targets;
     private int _resourceCount;
     public int ResursCont => _resourceCount;
 
     private void Start()
     {
-        _targets = new Queue<Resource>();
+        _scaner = new Scaner();
+        _targets = new List<Resource>();
     }
 
     private void Update()
     {
-        if (_targets.Count != 0 )
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            TryFindResources();
+        }
+
+        if (Input.GetKeyDown(KeyCode.S))
         {
             TrySendBot();
         }
@@ -27,8 +34,6 @@ public class Base : MonoBehaviour
 
     private void OnEnable()
     {
-        _spawner.Spawned += AddResourceToQueue;
-
         foreach (var bot in _bots)
         {
             bot.ResourceGiven += IncreaceResourceCount;
@@ -37,31 +42,28 @@ public class Base : MonoBehaviour
 
     private void OnDisable()
     {
-        _spawner.Spawned -= AddResourceToQueue;
-
         foreach (var bot in _bots)
         {
             bot.ResourceGiven -= IncreaceResourceCount;
         }
     }
 
-    private void AddResourceToQueue(Resource resource)
+    private void TryFindResources()
     {
-        _targets.Enqueue(resource);
+        _targets = _scaner.Scan();
     }
 
     private void TrySendBot()
     {
-
         var bot = _bots.SkipWhile(bot => bot.InWay).FirstOrDefault();
+        var target = _targets.SkipWhile(resource => resource.IsReserved).FirstOrDefault();
 
-        if (bot == null)
+        if (bot == null|| target == null)
         {
             return;
         }
 
-        var target = _targets.Dequeue();
-
+        target.IsReserved = true;
         bot.TakeResouscePoint(target);
     }
 

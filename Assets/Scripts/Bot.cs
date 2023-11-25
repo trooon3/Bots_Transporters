@@ -8,7 +8,6 @@ public class Bot : MonoBehaviour
 {
     public UnityAction ResourceGiven;
     [SerializeField] private Base _base;
-    [SerializeField] private List<Resource> _container = new List<Resource>();
     private Vector3 _resouscePlace = new Vector3(0, 2, 0);
 
     private Mover _mover;
@@ -42,7 +41,7 @@ public class Bot : MonoBehaviour
 
         if (collider.TryGetComponent(out Resource resource))
         {
-            if (_target.Reserved)
+            if (_target.IsTaked)
             {
                 return;
             }
@@ -67,7 +66,8 @@ public class Bot : MonoBehaviour
     {
         ResourceGiven.Invoke();
         transform.DetachChildren();
-        resource.Reserved = false;
+        resource.IsTaked = false;
+        resource.IsReserved = false;
         resource.SetActiveFalse();
         InWay = false;
         _target = null;
