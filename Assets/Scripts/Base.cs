@@ -8,15 +8,19 @@ public class Base : MonoBehaviour
 {
     [SerializeField] private Spawner _spawner;
     [SerializeField] private List<Bot> _bots = new List<Bot>();
+
     private Scaner _scaner;
     private List<Resource> _targets;
-    private int _resourceCount;
     private Coroutine _resourceFinder;
-    private WaitForSeconds _delayBetweenFindResourses = new WaitForSeconds(2f);
+    private WaitForSeconds _delayBetweenFindResourses;
+    private int _resourceCount;
+    private float _secondsBetweenFindResourses = 2f;
+
     public int ResursCont => _resourceCount;
 
     private void Start()
     {
+        _delayBetweenFindResourses = new WaitForSeconds(_secondsBetweenFindResourses);
         _scaner = new Scaner();
         _targets = new List<Resource>();
        _resourceFinder = StartCoroutine(ResourceFinder());

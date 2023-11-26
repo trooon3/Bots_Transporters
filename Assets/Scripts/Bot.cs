@@ -6,11 +6,13 @@ using UnityEngine.Events;
 
 public class Bot : MonoBehaviour
 {
-    public UnityAction ResourceGiven;
     [SerializeField] private Base _base;
     [SerializeField] private Resource _target;
+
     private Vector3 _resouscePlace = new Vector3(0, 2, 0);
     private Mover _mover;
+
+    public UnityAction ResourceGiven;
 
     public bool InWay { get; private set; }
 

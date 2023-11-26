@@ -5,6 +5,7 @@ using UnityEngine;
 public class Mover : MonoBehaviour
 {
     [SerializeField] private float _speed;
+
     private GameObject _target;
 
     private void Update()
