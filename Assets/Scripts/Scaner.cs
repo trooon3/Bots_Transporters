@@ -17,7 +17,6 @@ public class Scaner : MonoBehaviour
             if (findobject.TryGetComponent(out Resource resource))
             {
                 resources.Add(resource);
-                resource.IsReserved = false;
             }
         }
 

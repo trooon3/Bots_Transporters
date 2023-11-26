@@ -11,24 +11,24 @@ public class Base : MonoBehaviour
     private Scaner _scaner;
     private List<Resource> _targets;
     private int _resourceCount;
+    private Coroutine _resourceFinder;
+    private WaitForSeconds _delayBetweenFindResourses = new WaitForSeconds(2f);
     public int ResursCont => _resourceCount;
 
     private void Start()
     {
         _scaner = new Scaner();
         _targets = new List<Resource>();
+       _resourceFinder = StartCoroutine(ResourceFinder());
     }
 
-    private void Update()
+    private IEnumerator ResourceFinder()
     {
-        if (Input.GetKeyDown(KeyCode.F))
+        while (true)
         {
             TryFindResources();
-        }
-
-        if (Input.GetKeyDown(KeyCode.S))
-        {
             TrySendBot();
+            yield return _delayBetweenFindResourses;
         }
     }
 

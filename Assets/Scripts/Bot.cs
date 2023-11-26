@@ -8,10 +8,10 @@ public class Bot : MonoBehaviour
 {
     public UnityAction ResourceGiven;
     [SerializeField] private Base _base;
-    private Vector3 _resouscePlace = new Vector3(0, 2, 0);
-
-    private Mover _mover;
     [SerializeField] private Resource _target;
+    private Vector3 _resouscePlace = new Vector3(0, 2, 0);
+    private Mover _mover;
+
     public bool InWay { get; private set; }
 
     private void Awake()
@@ -41,7 +41,7 @@ public class Bot : MonoBehaviour
 
         if (collider.TryGetComponent(out Resource resource))
         {
-            if (_target.IsTaked)
+            if (_target.IsTaked || resource.IsTaked || _target != resource)
             {
                 return;
             }
@@ -77,6 +77,7 @@ public class Bot : MonoBehaviour
     {
         resource.transform.SetParent(transform);
         resource.transform.position = transform.position + _resouscePlace;
+        resource.IsTaked = true;
 
         _mover.SetTarget(_base);
     }
