@@ -21,7 +21,6 @@ public class Сarrier : MonoBehaviour
     {
         ResourceGiven.Invoke();
         transform.DetachChildren();
-        resource.IsTaked = false;
         resource.IsReserved = false;
         resource.SetActiveFalse();
     }
@@ -30,7 +29,6 @@ public class Сarrier : MonoBehaviour
     {
         resource.transform.SetParent(transform);
         resource.transform.position = transform.position + _resouscePlace;
-        resource.IsTaked = true;
 
         _mover.SetTarget(_bot.Base);
     }

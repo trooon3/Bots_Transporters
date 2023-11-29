@@ -27,14 +27,6 @@ public class Bot : MonoBehaviour
         InWay = false;
     }
 
-    private void Update()
-    {
-        if (_target != null && InWay == false)
-        {
-            TakeResourceInTarget(_target);
-        }
-    }
-
     private void OnTriggerEnter(Collider collider)
     {
         if (collider.TryGetComponent(out Base _base))
@@ -45,7 +37,7 @@ public class Bot : MonoBehaviour
 
         if (collider.TryGetComponent(out Resource resource))
         {
-            if (_target.IsTaked || resource.IsTaked || _target != resource)
+            if (_target != resource)
             {
                 return;
             }
@@ -57,18 +49,14 @@ public class Bot : MonoBehaviour
     public void TakeResouscePoint(Resource resource)
     {
         _target = resource;
-    }
-
-    private void TakeResourceInTarget(Resource resource)
-    {
-        InWay = true;
-
+        Debug.Log(resource.transform.position);
         _mover.SetTarget(resource);
+        InWay = true;
     }
 
     private void ResetTarget()
     {
-        InWay = false;
+         InWay = false;
         _target = null;
     }
 

@@ -6,17 +6,17 @@ public class Scaner : MonoBehaviour
 {
     private string _tag = "Resource";
 
-    public List<Resource> Scan() 
+    public Queue<Resource> Scan() 
     { 
-        GameObject[] findOblects = GameObject.FindGameObjectsWithTag(_tag);
+        GameObject[] findObjects = GameObject.FindGameObjectsWithTag(_tag);
 
-        List<Resource> resources = new List<Resource>();
+        Queue<Resource> resources = new Queue<Resource>();
 
-        foreach (var findobject in findOblects)
+        foreach (var findObject in findObjects)
         {
-            if (findobject.TryGetComponent(out Resource resource))
+            if (findObject.TryGetComponent(out Resource resource))
             {
-                resources.Add(resource);
+                resources.Enqueue(resource);
             }
         }
 

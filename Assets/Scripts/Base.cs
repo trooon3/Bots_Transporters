@@ -10,7 +10,7 @@ public class Base : MonoBehaviour
     [SerializeField] private List<Bot> _bots = new List<Bot>();
 
     private Scaner _scaner;
-    private List<Resource> _targets;
+    private Queue<Resource> _targets;
     private Coroutine _resourceFinder;
     private WaitForSeconds _delayBetweenFindResourses;
     private int _resourceCount;
@@ -21,8 +21,8 @@ public class Base : MonoBehaviour
     private void Start()
     {
         _delayBetweenFindResourses = new WaitForSeconds(_secondsBetweenFindResourses);
-        _scaner = new Scaner();
-        _targets = new List<Resource>();
+        _targets = new Queue<Resource>();
+        _scaner = GetComponent<Scaner>();
        _resourceFinder = StartCoroutine(ResourceFinder());
     }
 
@@ -30,7 +30,11 @@ public class Base : MonoBehaviour
     {
         while (true)
         {
-            TryFindResources();
+            if (_targets.Count == 0)
+            {
+                yield return null;
+            }
+
             TrySendBot();
             yield return _delayBetweenFindResourses;
         }
@@ -59,16 +63,29 @@ public class Base : MonoBehaviour
 
     private void TrySendBot()
     {
-        var bot = _bots.SkipWhile(bot => bot.InWay).FirstOrDefault();
-        var target = _targets.SkipWhile(resource => resource.IsReserved).FirstOrDefault();
+        var bot = _bots.Where(bot => bot.InWay == false).FirstOrDefault();
 
-        if (bot == null|| target == null)
+        if (bot == null)
         {
             return;
         }
 
-        target.IsReserved = true;
-        bot.TakeResouscePoint(target);
+        if (_targets.Count == 0)
+        {
+            TryFindResources();
+        }
+
+        var target = _targets.Dequeue();
+
+        if (target.IsReserved == false)
+        {
+            bot.TakeResouscePoint(target);
+            target.IsReserved = true;
+        }
+        else
+        {
+            return;
+        }
     }
 
     private void IncreaceResourceCount()

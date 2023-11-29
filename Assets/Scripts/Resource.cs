@@ -5,9 +5,8 @@ using UnityEngine.Events;
 
 public class Resource : MonoBehaviour
 {
-    public bool IsTaked { get; set; }
-    public bool IsReserved { get; set; } = false;
-
+   public bool IsReserved { get; set; } = false;
+   
     public void SetActiveFalse()
     {
         gameObject.SetActive(false);
