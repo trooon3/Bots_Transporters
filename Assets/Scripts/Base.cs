@@ -40,7 +40,7 @@ public class Base : MonoBehaviour
     {
         foreach (var bot in _bots)
         {
-            bot.ResourceGiven += IncreaceResourceCount;
+            bot.Ñarrier.ResourceGiven += IncreaceResourceCount;
         }
     }
 
@@ -48,7 +48,7 @@ public class Base : MonoBehaviour
     {
         foreach (var bot in _bots)
         {
-            bot.ResourceGiven -= IncreaceResourceCount;
+            bot.Ñarrier.ResourceGiven -= IncreaceResourceCount;
         }
     }
 

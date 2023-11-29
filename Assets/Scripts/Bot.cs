@@ -9,15 +9,16 @@ public class Bot : MonoBehaviour
     [SerializeField] private Base _base;
     [SerializeField] private Resource _target;
 
-    private Vector3 _resouscePlace = new Vector3(0, 2, 0);
     private Mover _mover;
-
-    public UnityAction ResourceGiven;
+    private Ñarrier _carrier;
 
     public bool InWay { get; private set; }
+    public Base Base => _base;
+    public Ñarrier Ñarrier => _carrier;
 
     private void Awake()
     {
+        _carrier = GetComponent<Ñarrier>();
         _mover = GetComponent<Mover>();
     }
 
@@ -38,7 +39,8 @@ public class Bot : MonoBehaviour
     {
         if (collider.TryGetComponent(out Base _base))
         {
-            GetResource(_target);
+            _carrier.GetResource(_target);
+            ResetTarget();
         }
 
         if (collider.TryGetComponent(out Resource resource))
@@ -48,7 +50,7 @@ public class Bot : MonoBehaviour
                 return;
             }
 
-            TakeResource(_target);
+           _carrier.TakeResource(_target);
         }
     }
 
@@ -64,23 +66,10 @@ public class Bot : MonoBehaviour
         _mover.SetTarget(resource);
     }
 
-    private void GetResource(Resource resource)
+    private void ResetTarget()
     {
-        ResourceGiven.Invoke();
-        transform.DetachChildren();
-        resource.IsTaked = false;
-        resource.IsReserved = false;
-        resource.SetActiveFalse();
         InWay = false;
         _target = null;
     }
 
-    private void TakeResource(Resource resource)
-    {
-        resource.transform.SetParent(transform);
-        resource.transform.position = transform.position + _resouscePlace;
-        resource.IsTaked = true;
-
-        _mover.SetTarget(_base);
-    }
 }
