@@ -16,7 +16,7 @@ public class Spawner : MonoBehaviour
     private int _maxResourceCount = 4;
     private int _maxXSpawnPosition = 20;
     private int _minXSpawnPosition = -20;
-    private int _maxZSpawnPosition = 20;
+    private int _maxZSpawnPosition = 0;
     private int _minZSpawnPosition = -20;
     private int _maxYSpawnPosition = 1;
     private int _minYSpawnPosition = 0;

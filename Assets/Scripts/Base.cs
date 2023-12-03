@@ -25,17 +25,23 @@ public class Base : MonoBehaviour
         _scaner = GetComponent<Scaner>();
        _resourceFinder = StartCoroutine(ResourceFinder());
     }
-
+  
     private IEnumerator ResourceFinder()
     {
         while (true)
         {
+            TryFindResources();
+
             if (_targets.Count == 0)
             {
                 yield return null;
             }
 
-            TrySendBot();
+            for (int i = 0; i < _targets.Count; i++)
+            {
+              TrySendBot();
+            }
+
             yield return _delayBetweenFindResourses;
         }
     }
@@ -58,7 +64,7 @@ public class Base : MonoBehaviour
 
     private void TryFindResources()
     {
-        _targets = _scaner.Scan();
+        _targets = _scaner.GetTargets(); 
     }
 
     private void TrySendBot()
@@ -72,7 +78,7 @@ public class Base : MonoBehaviour
 
         if (_targets.Count == 0)
         {
-            TryFindResources();
+            return;
         }
 
         var target = _targets.Dequeue();

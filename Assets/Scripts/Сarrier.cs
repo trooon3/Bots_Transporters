@@ -7,9 +7,9 @@ public class Сarrier : MonoBehaviour
 {
     private Bot _bot;
     private Mover _mover;
-    private Vector3 _resouscePlace = new Vector3(0, 2, 0);
+    private Vector3 _offset = new Vector3(0, 2, 0);
 
-    public UnityAction ResourceGiven;
+    public event UnityAction ResourceGiven;
 
     private void Start()
     {
@@ -19,16 +19,16 @@ public class Сarrier : MonoBehaviour
 
     public void GetResource(Resource resource)
     {
-        ResourceGiven.Invoke();
-        transform.DetachChildren();
         resource.IsReserved = false;
         resource.SetActiveFalse();
+        transform.DetachChildren();
+        ResourceGiven.Invoke();
     }
 
     public void TakeResource(Resource resource)
     {
         resource.transform.SetParent(transform);
-        resource.transform.position = transform.position + _resouscePlace;
+        resource.transform.position = transform.position + _offset;
 
         _mover.SetTarget(_bot.Base);
     }

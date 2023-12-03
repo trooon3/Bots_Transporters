@@ -29,12 +29,6 @@ public class Bot : MonoBehaviour
 
     private void OnTriggerEnter(Collider collider)
     {
-        if (collider.TryGetComponent(out Base _base))
-        {
-            _carrier.GetResource(_target);
-            ResetTarget();
-        }
-
         if (collider.TryGetComponent(out Resource resource))
         {
             if (_target != resource)
@@ -44,12 +38,17 @@ public class Bot : MonoBehaviour
 
            _carrier.TakeResource(_target);
         }
+
+        if (collider.TryGetComponent(out Base _base))
+        {
+            _carrier.GetResource(_target);
+            ResetTarget();
+        }
     }
 
     public void TakeResouscePoint(Resource resource)
     {
         _target = resource;
-        Debug.Log(resource.transform.position);
         _mover.SetTarget(resource);
         InWay = true;
     }
