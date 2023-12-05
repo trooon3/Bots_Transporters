@@ -11,7 +11,7 @@ public class Bot : MonoBehaviour
 
     public bool InWay { get; private set; }
     public Base Base => _base;
-    public Carrier Ñarrier => _carrier;
+    public Carrier Carrier => _carrier;
 
     private void Awake()
     {
