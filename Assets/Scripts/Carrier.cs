@@ -1,9 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class Сarrier : MonoBehaviour
+public class Carrier : MonoBehaviour
 {
     private Bot _bot;
     private Mover _mover;
@@ -30,6 +28,6 @@ public class Сarrier : MonoBehaviour
         resource.transform.SetParent(transform);
         resource.transform.position = transform.position + _offset;
 
-        _mover.SetTarget(_bot.Base);
+        _mover.SetTarget(_bot.Base.transform.position);
     }
 }

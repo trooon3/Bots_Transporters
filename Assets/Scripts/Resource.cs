@@ -1,11 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 
 public class Resource : MonoBehaviour
 {
-   public bool IsReserved { get; set; } = false;
+   public bool IsReserved { get; set; }
    
     public void SetActiveFalse()
     {

@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 using System.Linq;
 
 public class Spawner : MonoBehaviour
@@ -18,8 +17,7 @@ public class Spawner : MonoBehaviour
     private int _minXSpawnPosition = -20;
     private int _maxZSpawnPosition = 0;
     private int _minZSpawnPosition = -20;
-    private int _maxYSpawnPosition = 1;
-    private int _minYSpawnPosition = 0;
+    private int _ySpawnPosition = 1;
 
     private Coroutine _coroutine;
 
@@ -54,8 +52,7 @@ public class Spawner : MonoBehaviour
     private void Spawn()
     {
         Vector3 spawnPoint = new Vector3
-           (Random.Range(_minXSpawnPosition, _maxXSpawnPosition), 
-            Random.Range(_minYSpawnPosition, _maxYSpawnPosition), 
+           (Random.Range(_minXSpawnPosition, _maxXSpawnPosition), _ySpawnPosition, 
             Random.Range(_minZSpawnPosition, _maxZSpawnPosition));
         var sortResources = _resources.SkipWhile(resource => resource.gameObject.activeSelf);
         Resource resourceToSpawn = sortResources.FirstOrDefault();

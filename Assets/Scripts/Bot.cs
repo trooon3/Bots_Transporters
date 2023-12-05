@@ -1,8 +1,5 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
+
 
 public class Bot : MonoBehaviour
 {
@@ -10,21 +7,16 @@ public class Bot : MonoBehaviour
     [SerializeField] private Resource _target;
 
     private Mover _mover;
-    private Ñarrier _carrier;
+    private Carrier _carrier;
 
     public bool InWay { get; private set; }
     public Base Base => _base;
-    public Ñarrier Ñarrier => _carrier;
+    public Carrier Ñarrier => _carrier;
 
     private void Awake()
     {
-        _carrier = GetComponent<Ñarrier>();
+        _carrier = GetComponent<Carrier>();
         _mover = GetComponent<Mover>();
-    }
-
-    private void Start()
-    {
-        InWay = false;
     }
 
     private void OnTriggerEnter(Collider collider)
@@ -39,7 +31,7 @@ public class Bot : MonoBehaviour
            _carrier.TakeResource(_target);
         }
 
-        if (collider.TryGetComponent(out Base _base))
+        if (collider.TryGetComponent(out Base coreBuilding))
         {
             _carrier.GetResource(_target);
             ResetTarget();
@@ -49,7 +41,7 @@ public class Bot : MonoBehaviour
     public void TakeResouscePoint(Resource resource)
     {
         _target = resource;
-        _mover.SetTarget(resource);
+        _mover.SetTarget(resource.transform.position);
         InWay = true;
     }
 
