@@ -175,6 +175,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6771902636263875179, guid: 3715ea62bb4fc6249974daf595b92067, type: 3}
+      propertyPath: _spawner
+      value: 
+      objectReference: {fileID: 1834190374}
+    - target: {fileID: 6771902636263875179, guid: 3715ea62bb4fc6249974daf595b92067, type: 3}
       propertyPath: _bots.Array.data[0]
       value: 
       objectReference: {fileID: 1328579072}
@@ -710,34 +714,12 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!1 &1451915015 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6771902636263875181, guid: 3715ea62bb4fc6249974daf595b92067, type: 3}
-  m_PrefabInstance: {fileID: 41648486}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1451915016
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1451915015}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7936bd3c55ec38e4993482e5d5520354, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _currentHitDistance: 0
-  _findobject: {fileID: 0}
-  _layerMask:
-    serializedVersion: 2
-    m_Bits: 64
 --- !u!114 &1451915017 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6771902636263875179, guid: 3715ea62bb4fc6249974daf595b92067, type: 3}
   m_PrefabInstance: {fileID: 41648486}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1451915015}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6f53d25ad5aef4645ad257185ee30a6a, type: 3}

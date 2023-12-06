@@ -1,6 +1,7 @@
 using UnityEngine;
 
-
+[RequireComponent(typeof(Mover))]
+[RequireComponent(typeof(Carrier))]
 public class Bot : MonoBehaviour
 {
     [SerializeField] private Base _base;

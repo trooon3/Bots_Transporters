@@ -22,6 +22,13 @@ public class Scaner : MonoBehaviour
         Scan();
     }
 
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.blue;
+        Gizmos.DrawLine(_origin, _origin + _direction * _currentHitDistance);
+        Gizmos.DrawWireSphere(_origin + _direction * _currentHitDistance, _radius);
+    }
+
     public Queue<Resource> GetTargets()
     {
         Queue<Resource> resources = new Queue<Resource>();
@@ -59,10 +66,4 @@ public class Scaner : MonoBehaviour
         }
     }
 
-    private void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.blue;
-        Gizmos.DrawLine(_origin, _origin + _direction * _currentHitDistance);
-        Gizmos.DrawWireSphere(_origin + _direction * _currentHitDistance, _radius);
-    }
 }

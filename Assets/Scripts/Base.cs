@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
+[RequireComponent(typeof(Scaner))]
 public class Base : MonoBehaviour
 {
     [SerializeField] private Spawner _spawner;
@@ -25,6 +26,23 @@ public class Base : MonoBehaviour
        _resourceFinder = StartCoroutine(ResourceFinder());
     }
   
+
+    private void OnEnable()
+    {
+        foreach (var bot in _bots)
+        {
+            bot.Carrier.ResourceGiven += IncreaceResourceCount;
+        }
+    }
+
+    private void OnDisable()
+    {
+        foreach (var bot in _bots)
+        {
+            bot.Carrier.ResourceGiven -= IncreaceResourceCount;
+        }
+    }
+
     private IEnumerator ResourceFinder()
     {
         while (true)
@@ -42,22 +60,6 @@ public class Base : MonoBehaviour
             }
 
             yield return _delayBetweenFindResourses;
-        }
-    }
-
-    private void OnEnable()
-    {
-        foreach (var bot in _bots)
-        {
-            bot.Carrier.ResourceGiven += IncreaceResourceCount;
-        }
-    }
-
-    private void OnDisable()
-    {
-        foreach (var bot in _bots)
-        {
-            bot.Carrier.ResourceGiven -= IncreaceResourceCount;
         }
     }
 

@@ -1,6 +1,8 @@
 using UnityEngine;
 using UnityEngine.Events;
 
+[RequireComponent(typeof(Mover))]
+[RequireComponent(typeof(Bot))]
 public class Carrier : MonoBehaviour
 {
     private Bot _bot;
