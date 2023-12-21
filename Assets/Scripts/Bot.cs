@@ -4,14 +4,15 @@ using UnityEngine;
 [RequireComponent(typeof(Carrier))]
 public class Bot : MonoBehaviour
 {
-    [SerializeField] private Base _base;
-    [SerializeField] private Resource _target;
-
+    private CoreBilding _coreBuilding;
+    private Resource _target;
+    private Spawner _spawner;
+    private Transform _bulidPoit;
     private Mover _mover;
     private Carrier _carrier;
 
     public bool InWay { get; private set; }
-    public Base Base => _base;
+    public CoreBilding CoreBuilding => _coreBuilding;
     public Carrier Carrier => _carrier;
 
     private void Awake()
@@ -20,30 +21,64 @@ public class Bot : MonoBehaviour
         _mover = GetComponent<Mover>();
     }
 
+    private void OnEnable()
+    {
+        _carrier.ResourceGiven += IncreaseCoreBuilngCount;
+    }
+
+    private void OnDisable()
+    {
+        _carrier.ResourceGiven -= IncreaseCoreBuilngCount;
+    }
+
     private void OnTriggerEnter(Collider collider)
     {
         if (collider.TryGetComponent(out Resource resource))
         {
-            if (_target != resource)
+            if (_target == resource)
             {
-                return;
+                _carrier.TakeResource(_target);
             }
-
-           _carrier.TakeResource(_target);
         }
 
-        if (collider.TryGetComponent(out Base coreBuilding))
+        if (collider.TryGetComponent(out CoreBilding coreBuilding))
         {
-            _carrier.GetResource(_target);
-            ResetTarget();
+            if (transform.childCount > 0)
+            {
+                _carrier.GetResource(_target);
+                ResetTarget();
+            }
+        }
+
+        if (collider.TryGetComponent(out Flag flag))
+        {
+            if (_bulidPoit == flag.transform)
+            {
+                SetCoreBuildig(CreateNewBuilding(flag.transform.position));
+                InWay = false;
+                flag.CoreBilding.IsTakenFlag = false;
+                flag.gameObject.SetActive(false);
+            }
         }
     }
 
-    public void TakeResouscePoint(Resource resource)
+    public void TakeResourcePoint(Resource resource)
     {
         _target = resource;
-        _mover.SetTarget(resource.transform.position);
+        _mover.SetTarget(_target.transform);
         InWay = true;
+    }
+
+    public void TakeBuildPoint(Transform buildPoint)
+    {
+        _bulidPoit = buildPoint;
+        _mover.SetTarget(buildPoint);
+        InWay = true;
+    }
+
+    public void SetCoreBuildig(CoreBilding coreBilding)
+    {
+        _coreBuilding = coreBilding;
     }
 
     private void ResetTarget()
@@ -52,4 +87,18 @@ public class Bot : MonoBehaviour
         _target = null;
     }
 
+    private void IncreaseCoreBuilngCount()
+    {
+        _coreBuilding.IncreaceResourceCount();
+    }
+
+    private CoreBilding CreateNewBuilding(Vector3 position)
+    {
+        return _spawner.CreateCoreBuilding(this, position);
+    }
+
+    public void SetSpawner(Spawner spawner)
+    {
+        _spawner = spawner;
+    }
 }

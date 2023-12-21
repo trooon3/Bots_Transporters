@@ -2,13 +2,13 @@ using UnityEngine;
 
 public class Mover : MonoBehaviour
 {
-    [SerializeField] private float _speed;
+    private float _speed;
+    private Transform _target;
 
-    private Vector3 _target;
-
-    private void Start()
+    private void Awake()
     {
-        _target = transform.position;
+        _speed = 10;
+        _target = transform;
     }
 
     private void Update()
@@ -18,10 +18,10 @@ public class Mover : MonoBehaviour
             return;
         }
 
-       transform.position = Vector3.MoveTowards(transform.position, _target, _speed * Time.deltaTime);
+        transform.position = Vector3.MoveTowards(transform.position, _target.position, _speed * Time.deltaTime);
     }
 
-    public void SetTarget(Vector3 target)
+    public void SetTarget(Transform target)
     {
         _target = target;
     }

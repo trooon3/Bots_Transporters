@@ -3,14 +3,13 @@ using UnityEngine;
 
 public class Scaner : MonoBehaviour
 {
-
     [SerializeField] private float _currentHitDistance;
     [SerializeField] private GameObject _findobject;
     [SerializeField] LayerMask _layerMask;
 
     private float _radius = 0.5f;
     private float _rotateSpeed = 180f;
-    private float _maxDistance = 20f;
+    private float _maxDistance = 200f;
 
     private Vector3 _direction;
     private Vector3 _origin;

@@ -9,7 +9,7 @@ public class Carrier : MonoBehaviour
     private Mover _mover;
     private Vector3 _offset = new Vector3(0, 2, 0);
 
-    public event UnityAction ResourceGiven;
+    public UnityAction ResourceGiven;
 
     private void Start()
     {
@@ -30,6 +30,6 @@ public class Carrier : MonoBehaviour
         resource.transform.SetParent(transform);
         resource.transform.position = transform.position + _offset;
 
-        _mover.SetTarget(_bot.Base.transform.position);
+        _mover.SetTarget(_bot.CoreBuilding.transform);
     }
 }
