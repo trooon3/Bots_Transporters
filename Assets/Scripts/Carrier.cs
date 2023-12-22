@@ -19,7 +19,6 @@ public class Carrier : MonoBehaviour
 
     public void GetResource(Resource resource)
     {
-        resource.IsReserved = false;
         resource.SetActiveFalse();
         transform.DetachChildren();
         ResourceGiven.Invoke();

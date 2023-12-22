@@ -6,7 +6,8 @@ using System.Linq;
 [RequireComponent(typeof(Flag))]
 public class CoreBilding : MonoBehaviour
 {
-    private List<Bot> _bots = new List<Bot>();
+    private Queue<Bot> _freeBots = new Queue<Bot>();
+    private Queue<Bot> _busyBots = new Queue<Bot>();
     private Spawner _spawner;
     private Observer _observer;
     private Queue<Resource> _targets;
@@ -21,13 +22,14 @@ public class CoreBilding : MonoBehaviour
 
     private void Awake()
     {
+        _busyBots = new Queue<Bot>();
         _delayBetweenFindResourses = new WaitForSeconds(_secondsBetweenFindResourses);
-        _targets = new Queue<Resource>();
     }
 
     private void Start()
     {
         _observer = _spawner.GetObserver();
+        _targets = _observer.GetQ();
         _resourceFinder = StartCoroutine(ResourceFinder());
     }
 
@@ -74,7 +76,13 @@ public class CoreBilding : MonoBehaviour
 
     private void TrySendBot()
     {
-        var bot = _bots.Where(bot => bot.InWay == false).FirstOrDefault();
+        if (_freeBots.Count <= 0)
+        {
+            return;
+        }
+
+        var bot = _freeBots.Dequeue();
+        _busyBots.Enqueue(bot);
 
         if (bot == null)
         {
@@ -88,15 +96,7 @@ public class CoreBilding : MonoBehaviour
 
         var target = _targets.Dequeue();
 
-        if (target.IsReserved == false)
-        {
-            bot.TakeResourcePoint(target);
-            target.IsReserved = true;
-        }
-        else
-        {
-            return;
-        }
+        bot.TakeResourcePoint(target);
     }
 
     private void AddBot()
@@ -104,7 +104,7 @@ public class CoreBilding : MonoBehaviour
         _resourceCount -= 3;
         var bot = _spawner.CreateBot();
         bot.SetCoreBuildig(this);
-        _bots.Add(bot);
+        _freeBots.Enqueue(bot);
     }
 
     public void IncreaceResourceCount()
@@ -140,7 +140,12 @@ public class CoreBilding : MonoBehaviour
 
     public void Initialize(Spawner spawner, Bot bot)
     {
-        _bots.Add(bot);
+        _freeBots.Enqueue(bot);
         _spawner = spawner;
+    }
+
+    public void SetBotUnbuzzed(Bot bot)
+    {
+        _freeBots.Enqueue(bot);
     }
 }

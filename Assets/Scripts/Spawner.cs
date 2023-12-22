@@ -30,7 +30,6 @@ public class Spawner : MonoBehaviour
 
     private void Start()
     {
-
         _delayBetweenSpawn = new WaitForSeconds(_secondsBetweenSpawn);
 
         for (int i = 0; i < _maxResourceCount; i++)

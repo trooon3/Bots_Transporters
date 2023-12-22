@@ -44,10 +44,7 @@ public class Observer : MonoBehaviour
 
         foreach (var resource in _resources)
         {
-            if (resource.IsReserved == false)
-            {
-                resources.Enqueue(resource);
-            }
+            resources.Enqueue(resource);
         }
 
         _resources = new Queue<Resource>();

@@ -90,6 +90,7 @@ public class Bot : MonoBehaviour
     private void IncreaseCoreBuilngCount()
     {
         _coreBuilding.IncreaceResourceCount();
+        _coreBuilding.SetBotUnbuzzed(this);
     }
 
     private CoreBilding CreateNewBuilding(Vector3 position)
