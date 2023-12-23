@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 [RequireComponent(typeof(Mover))]
 [RequireComponent(typeof(Carrier))]
@@ -14,6 +15,8 @@ public class Bot : MonoBehaviour
     public bool InWay { get; private set; }
     public CoreBilding CoreBuilding => _coreBuilding;
     public Carrier Carrier => _carrier;
+
+    public UnityAction ResourceGet;
 
     private void Awake()
     {
@@ -89,7 +92,7 @@ public class Bot : MonoBehaviour
 
     private void IncreaseCoreBuilngCount()
     {
-        _coreBuilding.IncreaceResourceCount();
+        ResourceGet?.Invoke();
         _coreBuilding.SetBotUnbuzzed(this);
     }
 

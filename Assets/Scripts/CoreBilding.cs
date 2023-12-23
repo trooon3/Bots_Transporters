@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using System.Linq;
 
 [RequireComponent(typeof(Flag))]
@@ -12,18 +13,18 @@ public class CoreBilding : MonoBehaviour
     private Observer _observer;
     private Queue<Resource> _targets;
     private Coroutine _resourceFinder;
-    private WaitForSeconds _delayBetweenFindResourses;
-    private int _resourceCount;
-    private float _secondsBetweenFindResourses = 1f;
     public Flag Flag;
 
+    private int _resourceCount;
+    private int _botCreateCost = 3;
+    private int _coreBuildingCreateCost = 5;
     public int ResourceCount => _resourceCount;
+
     public bool IsTakenFlag;
 
     private void Awake()
     {
         _busyBots = new Queue<Bot>();
-        _delayBetweenFindResourses = new WaitForSeconds(_secondsBetweenFindResourses);
     }
 
     private void Start()
@@ -37,12 +38,12 @@ public class CoreBilding : MonoBehaviour
     {
         while (true)
         {
-            if (_resourceCount >=5 && IsTakenFlag)
+            if (_resourceCount >= _coreBuildingCreateCost && IsTakenFlag)
             {
                 SendBotToBuild();
             }
 
-            if (_resourceCount >= 3 && IsTakenFlag == false)
+            if (_resourceCount >= _botCreateCost && IsTakenFlag == false)
             {
                 AddBot();
             }
@@ -62,7 +63,10 @@ public class CoreBilding : MonoBehaviour
               TrySendBot();
             }
 
-            yield return _delayBetweenFindResourses;
+            if (_freeBots.Count >= 0)
+            {
+                yield return null;
+            }
         }
     }
 
@@ -82,6 +86,7 @@ public class CoreBilding : MonoBehaviour
         }
 
         var bot = _freeBots.Dequeue();
+        bot.ResourceGet += IncreaceResourceCount;
         _busyBots.Enqueue(bot);
 
         if (bot == null)
@@ -101,13 +106,13 @@ public class CoreBilding : MonoBehaviour
 
     private void AddBot()
     {
-        _resourceCount -= 3;
+        _resourceCount -= _botCreateCost;
         var bot = _spawner.CreateBot();
         bot.SetCoreBuildig(this);
         _freeBots.Enqueue(bot);
     }
 
-    public void IncreaceResourceCount()
+    private void IncreaceResourceCount()
     {
         _resourceCount++;
     }
@@ -116,7 +121,7 @@ public class CoreBilding : MonoBehaviour
     {
        var bot = _spawner.CreateBot();
 
-        _resourceCount -= 5;
+        _resourceCount -= _coreBuildingCreateCost;
         bot.TakeBuildPoint(Flag.transform);
     }
 
@@ -146,6 +151,7 @@ public class CoreBilding : MonoBehaviour
 
     public void SetBotUnbuzzed(Bot bot)
     {
+        bot.ResourceGet -= IncreaceResourceCount;
         _freeBots.Enqueue(bot);
     }
 }
